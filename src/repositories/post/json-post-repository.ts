@@ -5,7 +5,7 @@ import { readFile } from 'fs/promises';
 
 const ROOT_DIR = process.cwd();
 const JSON_FILE_PATH = resolve(ROOT_DIR, 'src', 'db', 'seed', 'posts.json');
-const SIMULATE_DELAY_MS = 3000;
+const SIMULATE_DELAY_MS = 0;
 
 export class JsonPostRepository implements PostRepository {
     private async simulateDelay() {
