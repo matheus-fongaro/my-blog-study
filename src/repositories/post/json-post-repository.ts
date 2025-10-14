@@ -5,27 +5,33 @@ import { readFile } from 'fs/promises';
 
 const ROOT_DIR = process.cwd();
 const JSON_FILE_PATH = resolve(ROOT_DIR, 'src', 'db', 'seed', 'posts.json');
+const SIMULATE_DELAY_MS = 3000;
 
 export class JsonPostRepository implements PostRepository {
-  async findById(id: string): Promise<PostModel> {
-    const posts = await this.readFromDisk();
-    const post = posts.find((post) => post.id === id);
-    if (!post) {
-      throw new Error('Post não encontrado');
+    private async simulateDelay() {
+        if (SIMULATE_DELAY_MS <= 0) return;
+        return new Promise((resolve) => setTimeout(resolve, SIMULATE_DELAY_MS));
     }
-    return post;
-  }
-  private async readFromDisk(): Promise<PostModel[]> {
-    const jsonContent = await readFile(JSON_FILE_PATH, 'utf-8');
-    const parsed = JSON.parse(jsonContent);
-    const { posts } = parsed;
-    return posts;
-  }
+    async findById(id: string): Promise<PostModel> {
+        const posts = await this.readFromDisk();
+        const post = posts.find((post) => post.id === id);
+        if (!post) {
+            throw new Error('Post não encontrado');
+        }
+        return post;
+    }
+    private async readFromDisk(): Promise<PostModel[]> {
+        await this.simulateDelay();
+        const jsonContent = await readFile(JSON_FILE_PATH, 'utf-8');
+        const parsed = JSON.parse(jsonContent);
+        const { posts } = parsed;
+        return posts;
+    }
 
-  async findAll(): Promise<PostModel[]> {
-    const posts = await this.readFromDisk();
-    return posts;
-  }
+    async findAll(): Promise<PostModel[]> {
+        const posts = await this.readFromDisk();
+        return posts;
+    }
 }
 
 // (async () => {
