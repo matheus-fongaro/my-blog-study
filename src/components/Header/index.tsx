@@ -11,7 +11,7 @@ export function Header() {
           'lg:text-7xl lg:py-12'
         )}
       >
-        <Link href="#">Blog do Matheus</Link>
+        <Link href="#">Matheus Fongaro</Link>
       </h1>
     </header>
   );
