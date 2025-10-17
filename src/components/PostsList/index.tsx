@@ -1,12 +1,12 @@
-import { postRepository } from '@/repositories/post';
-import { PostImageCover } from './PostImageCover';
+import { findAllPublishedPosts } from '@/lib/post/queries';
 import { PostDescription } from './PostDescription';
+import { PostImageCover } from './PostImageCover';
 
 export async function PostsList() {
-  const posts = await postRepository.findAll();
+  const posts = await findAllPublishedPosts();
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      {posts.map((post) => {
+      {posts.slice(1).map((post) => {
         return (
           <div className="grid grid-cols-1 gap-4 group" key={post.id}>
             <PostImageCover
@@ -20,8 +20,8 @@ export async function PostsList() {
               }}
             />
             <PostDescription
-              as="h3"
-              dateTime={post.updatedAt}
+              headerTag="h3"
+              createdAt={post.createdAt}
               excerpt={post.excerpt}
               title={post.title}
               url={`/post/${post.slug}`}
